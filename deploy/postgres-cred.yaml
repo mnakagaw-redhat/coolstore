@@ -1,0 +1,10 @@
+---
+kind: Secret
+apiVersion: v1
+metadata:
+  name: postgres-creds
+type: Opaque
+data:
+  QUARKUS_DATASOURCE_JDBC_URL: amRiYzpwb3N0Z3Jlc3FsOi8vcG9zdGdyZXMtcnc6NTQzMi9jb29sc3RvcmU=
+  QUARKUS_DATASOURCE_USERNAME: cXVhcmt1cw==
+  QUARKUS_DATASOURCE_PASSWORD: cXVhcmt1cw==
