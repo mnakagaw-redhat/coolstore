@@ -1,24 +1,25 @@
 package com.redhat.coolstore.service;
 
 import java.util.List;
-import java.util.logging.Logger;
 
-import javax.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
+import com.redhat.coolstore.model.CatalogItemEntity;
+import com.redhat.coolstore.model.InventoryEntity;
 
-import com.redhat.coolstore.model.*;
-
-@Stateless
+@ApplicationScoped
 public class CatalogService {
 
-    @Inject
-    Logger log;
+    private static final Logger log = LoggerFactory.getLogger(CatalogService.class);
 
     @Inject
     private EntityManager em;
@@ -38,10 +39,12 @@ public class CatalogService {
         return em.find(CatalogItemEntity.class, itemId);
     }
 
+    @Transactional
     public void updateInventoryItems(String itemId, int deducts) {
+        log.info("Updating inventory for item " + itemId + " with " + deducts + " deducts.");
         InventoryEntity inventoryEntity = getCatalogItemById(itemId).getInventory();
         int currentQuantity = inventoryEntity.getQuantity();
-        inventoryEntity.setQuantity(currentQuantity-deducts);
+        inventoryEntity.setQuantity(currentQuantity - deducts);
         em.merge(inventoryEntity);
     }
 
