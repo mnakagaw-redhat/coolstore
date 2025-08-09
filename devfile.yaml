@@ -1,0 +1,25 @@
+schemaVersion: 2.2.2
+metadata:
+  name: openjdk-workspace
+components:
+  - name: tools
+    container:
+      image: quay.io/kanekoh/openjdk:main
+      cpuRequest: 50m
+      cpuLimit: 1000m
+      memoryRequest: 1Gi
+      memoryLimit: 4Gi
+      env:
+        - name: HOME
+          value: "/projects/home"
+        - name: SSL_CERT_DIR
+          value: /var/run/secrets/kubernetes.io/serviceaccount
+events:
+  postStart: []
+
+commands:
+  - id: install-editor-extension
+    exec:
+      commandLine: "code --install-extension /projects/user/.vscode-plugins/konveyor-v0.1.0.vsix"
+      component: tools
+      workingDir: /projects/devspaces-openjdk
