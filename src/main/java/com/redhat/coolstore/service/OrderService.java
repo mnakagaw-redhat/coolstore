@@ -1,11 +1,12 @@
 package com.redhat.coolstore.service;
 
-import com.redhat.coolstore.model.Order;
 import java.util.List;
 
+import com.redhat.coolstore.model.Order;
+
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -13,7 +14,7 @@ import jakarta.persistence.criteria.Root;
 @ApplicationScoped
 public class OrderService {
 
-  @Inject
+  @PersistenceContext
   private EntityManager em;
 
   public void save(Order order) {

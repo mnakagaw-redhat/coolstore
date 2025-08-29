@@ -27,7 +27,7 @@ public class Transformers {
     private static final String[] RANDOM_NAMES = {"Sven Karlsson","Johan Andersson","Karl Svensson","Anders Johansson","Stefan Olson","Martin Ericsson"};
     private static final String[] RANDOM_EMAILS = {"sven@gmail.com","johan@gmail.com","karl@gmail.com","anders@gmail.com","stefan@gmail.com","martin@gmail.com"};
 
-    private static Logger log = Logger.getLogger(Transformers.class.getName());
+    private static final Logger log = Logger.getLogger(Transformers.class.getName());
 
     public static Product toProduct(CatalogItemEntity entity) {
         Product prod = new Product();

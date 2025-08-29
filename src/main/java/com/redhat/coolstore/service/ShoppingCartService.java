@@ -1,5 +1,6 @@
 package com.redhat.coolstore.service;
 
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 import jakarta.enterprise.context.SessionScoped;
@@ -13,10 +14,10 @@ import com.redhat.coolstore.model.ShoppingCartItem;
 import com.redhat.coolstore.rest.client.ShippingServiceClient;
 
 @SessionScoped
-public class ShoppingCartService  {
+public class ShoppingCartService implements Serializable {
 
-    @Inject
-    Logger log;
+    private static final Logger log = Logger.getLogger(ShoppingCartService.class.getName());
+
 
     @Inject
     ProductService productServices;
@@ -24,6 +25,7 @@ public class ShoppingCartService  {
     @Inject
     PromoService ps;
 
+    @Inject
     @RestClient
     ShippingServiceClient ss;
 

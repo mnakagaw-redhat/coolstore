@@ -2,26 +2,26 @@ package com.redhat.coolstore.service;
 
 import java.util.List;
 
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.redhat.coolstore.model.CatalogItemEntity;
 import com.redhat.coolstore.model.InventoryEntity;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
+
 @ApplicationScoped
 public class CatalogService {
 
     private static final Logger log = LoggerFactory.getLogger(CatalogService.class);
 
-    @Inject
+    @PersistenceContext
     private EntityManager em;
 
     public CatalogService() {

@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class Producers {
 
-    Logger log = Logger.getLogger(Producers.class.getName());
+    private static final Logger log = Logger.getLogger(Producers.class.getName());
 
     @Produces
     public Logger produceLog(InjectionPoint injectionPoint) {

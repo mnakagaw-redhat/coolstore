@@ -15,8 +15,7 @@ import com.redhat.coolstore.utils.Transformers;
 @ApplicationScoped
 public class ShoppingCartOrderProcessor  {
 
-    @Inject
-    Logger log;
+    private static final Logger log = Logger.getLogger(ShoppingCartOrderProcessor.class.getName());
 
 
     @Inject
