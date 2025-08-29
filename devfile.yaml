@@ -7,8 +7,8 @@ components:
       image: quay.io/kanekoh/openjdk:main
       cpuRequest: 50m
       cpuLimit: 1000m
-      memoryRequest: 1Gi
-      memoryLimit: 4Gi
+      memoryRequest: 4Gi
+      memoryLimit: 8Gi
       env:
         - name: HOME
           value: "/projects/home"
