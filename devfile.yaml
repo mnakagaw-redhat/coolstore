@@ -67,7 +67,7 @@ commands:
       label: Merge .code-workspace on start
   - id: enforce-provider-settings
     exec:
-      component: che-code
+      component: tools
       label: Enforce Konveyor provider-settings.yaml
       commandLine: |
         bash -lc '
