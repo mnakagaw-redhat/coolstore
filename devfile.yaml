@@ -15,9 +15,7 @@ components:
         - name: SSL_CERT_DIR
           value: /var/run/secrets/kubernetes.io/serviceaccount
 events:
-  postStart:
-    - merge-code-workspace
-    - enforce-provider-settings
+  postStart: []
 
 commands:
   - id: merge-code-workspace
