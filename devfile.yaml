@@ -28,7 +28,7 @@ commands:
       commandLine: |
         bash -lc '
           set -euo pipefail
-          SRC="/home/assets/provider-settings.yaml"
+          SRC="/provider-settings.yaml"
           DST="/checode/remote/data/User/globalStorage/konveyor.konveyor/settings/provider-settings.yaml"
           mkdir -p "$(dirname "$DST")"
           if [[ ! -f "$SRC" ]]; then
