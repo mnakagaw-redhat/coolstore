@@ -1,0 +1,92 @@
+schemaVersion: 2.2.2
+metadata:
+  name: openjdk-workspace
+components:
+  - name: tools
+    container:
+      image: quay.io/kanekoh/openjdk:main
+      cpuRequest: 50m
+      cpuLimit: 1000m
+      memoryRequest: 4Gi
+      memoryLimit: 8Gi
+      env:
+        - name: HOME
+          value: "/projects/home"
+        - name: SSL_CERT_DIR
+          value: /var/run/secrets/kubernetes.io/serviceaccount
+events:
+  postStart:
+    - merge-code-workspace
+    - enforce-provider-settings
+
+commands:
+  - id: merge-code-workspace
+    exec:
+      component: tools
+      workingDir: /projects
+      commandLine: |
+        bash -lc '
+          WS="/projects/.code-workspace"
+          NEW="$(mktemp)"; OLD="$(mktemp)"; OUT="$(mktemp)"
+
+          # ここに取り込みたい内容を書く
+          cat > "$NEW" <<'JSON'
+          {
+            "folders": [
+              { "name": "coolstore", "path": "/projects/coolstore" }
+            ],
+            "settings": {
+              "konveyor.kai.agentMode": false,
+              "konveyor.analyzerPath": "",
+              "konveyor.solutionServer.url": "http://solution-server-svc.solution-server.svc.cluster.local:8000",
+              "konveyor.solutionServer.enabled": true,
+              "konveyor.logLevel": "debug"
+            }
+          }
+          JSON
+
+          # 既存がなければ {}
+          if [[ -s "$WS" ]]; then cp "$WS" "$OLD"; else echo "{}" > "$OLD"; fi
+
+          # folders は path でユニーク化、settings は上書きマージ
+          jq -s "
+            (.[1] | .folders=(.folders // []) | .settings=(.settings // {})) as \$old |
+            (.[0] | .folders=(.folders // []) | .settings=(.settings // {})) as \$new |
+            {
+              folders: ((\$old.folders + \$new.folders) | unique_by(.path)),
+              settings: (\$old.settings + \$new.settings)
+            }
+          " "$NEW" "$OLD" > "$OUT"
+
+          install -m 0644 "$OUT" "$WS"
+          echo "[devfile] merged into $WS"
+        '
+      group:
+        kind: build
+        isDefault: true
+      label: Merge .code-workspace on start
+  - id: enforce-provider-settings
+    exec:
+      component: tools
+      label: Enforce Konveyor provider-settings.yaml
+      commandLine: |
+        bash -lc '
+          set -euo pipefail
+          SRC="/home/assets/provider-settings.yaml"
+          DST="/checode/remote/data/User/globalStorage/konveyor.konveyor/settings/provider-settings.yaml"
+          mkdir -p "$(dirname "$DST")"
+          if [[ ! -f "$SRC" ]]; then
+            echo "[enforce] template not found: $SRC" >&2
+            exit 1
+          fi
+          # バックアップ（存在時のみ）
+          [[ -f "$DST" ]] && cp -a "$DST" "${DST}.bak.$(date +%Y%m%d%H%M%S)" || true
+          # 強制置換
+          install -m 0644 "$SRC" "$DST"
+          # 読み取り専用化（実行中の手編集を抑止）
+          chmod 0444 "$DST"
+          echo "[enforce] replaced and set read-only -> $DST"
+        '
+      group:
+        kind: build
+        isDefault: true
