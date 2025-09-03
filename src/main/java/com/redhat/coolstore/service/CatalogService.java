@@ -1,7 +1,3 @@
-// No changes were necessary for this file.
-// The analysis tool suggested replacing @Stateless with @ApplicationScoped,
-// but the provided code already uses @ApplicationScoped, which is the correct
-// annotation for a shared service bean in Quarkus.
 package com.redhat.coolstore.service;
 
 import java.util.List;
