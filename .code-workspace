@@ -1,0 +1,12 @@
+{
+        "folders": [
+                {
+                        "name": "coolstore",
+                        "path": "/projects/coolstore"
+                }
+        ],
+        "settings": {
+                "konveyor.solutionServer.enabled": true,
+                "konveyor.solutionServer.url": "http://solution-server-svc.solution-server.svc.cluster.local:8000"
+        }
+}
