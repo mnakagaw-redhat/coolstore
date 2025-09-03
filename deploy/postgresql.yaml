@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgresql
+type: Opaque
+stringData:
+  password: quarkus
+  username: quarkus
+---
+kind: Cluster
+apiVersion: postgresql.cnpg.io/v1
+metadata:
+  name: postgres
+spec:
+  bootstrap:
+    initdb:
+      database: coolstore
+      owner: quarkus
+      secret:
+        name: postgresql
+  instances: 1
+  logLevel: info
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 1Gi
+  walStorage:
+    size: 1Gi
