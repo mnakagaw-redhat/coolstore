@@ -15,9 +15,10 @@ components:
         - name: SSL_CERT_DIR
           value: /var/run/secrets/kubernetes.io/serviceaccount
         - name: VSCODE_DEFAULT_WORKSPACE
-          value: /projects/coolstore/.code-workspace
+          value: /.code-workspace
 events:
-  postStart: []
+  postStart:
+  - enforce-provider-settings
 
 commands:
   - id: enforce-provider-settings
