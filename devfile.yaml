@@ -18,9 +18,22 @@ components:
           value: /.code-workspace
 events:
   postStart:
+  - configure-java-version
   - enforce-provider-settings
 
 commands:
+  - id: configure-java-version
+    exec:
+      component: tools
+      label: Configure Java Version to 21
+      commandLine: |
+        bash -lc '
+          source /home/tooling/.sdkman/bin/sdkman-init.sh
+          sdk default java 21.0.5-tem
+        '
+      group:
+        kind: build
+
   - id: enforce-provider-settings
     exec:
       component: tools
