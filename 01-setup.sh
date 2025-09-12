@@ -5,7 +5,7 @@ cd $(dirname $0)
 
 # Get current OpenShift user and create project name
 USERNAME=$(oc whoami)
-PROJECT_NAME="coolstore-${USERNAME}"
+PROJECT_NAME="${USERNAME}-wk"
 APP_NAME=coolstore-quarkus
 
 echo "======================================"

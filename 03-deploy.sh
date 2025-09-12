@@ -4,7 +4,7 @@ set -e  # エラー時に停止
 cd $(dirname $0)
 
 USERNAME=$(oc whoami)
-PROJECT_NAME="coolstore-${USERNAME}"
+PROJECT_NAME="${USERNAME}-wk"
 APP_NAME=coolstore-quarkus
 
 echo "======================================"
