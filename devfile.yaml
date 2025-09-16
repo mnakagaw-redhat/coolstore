@@ -5,10 +5,9 @@ components:
   - name: tools
     container:
       image: quay.io/kanekoh/openjdk:main
-      cpuRequest: 200m
-      cpuLimit: 1000m
-      memoryRequest: 8Gi
-      memoryLimit: 8Gi
+      cpuRequest: 1000m
+      memoryRequest: 12Gi
+      memoryLimit: 12Gi
       env:
         - name: HOME
           value: "/projects/home"
