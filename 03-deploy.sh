@@ -27,10 +27,14 @@ oc set env --from=secret/postgres-creds deployment/${APP_NAME}
 
 # Create HTTPS route (edge termination for security)
 echo "Creating secure route..."
-oc create route edge ${APP_NAME} \
-  --service=${APP_NAME} \
-  --port=8080-tcp \
-  --dry-run -o yaml | oc apply -f -
+if ! oc get route ${APP_NAME} >/dev/null 2>&1; then
+    oc create route edge ${APP_NAME} \
+      --service=${APP_NAME} \
+      --port=8080-tcp
+    echo "Route created successfully"
+else
+    echo "Route ${APP_NAME} already exists"
+fi
 
 echo "======================================"
 echo "Deployment completed successfully!"
