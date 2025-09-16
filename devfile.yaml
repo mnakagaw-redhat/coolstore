@@ -16,9 +16,10 @@ components:
         - name: VSCODE_DEFAULT_WORKSPACE
           value: /.code-workspace
         - name: USE_JAVA21
-          value: "true"
+          value: 'true'
 events:
   postStart:
+  - configure-java-version
   - enforce-provider-settings
 
 commands:
