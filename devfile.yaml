@@ -5,10 +5,9 @@ components:
   - name: tools
     container:
       image: quay.io/kanekoh/openjdk:main
-      cpuRequest: 50m
-      cpuLimit: 1000m
-      memoryRequest: 4Gi
-      memoryLimit: 8Gi
+      cpuRequest: 1000m
+      memoryRequest: 12Gi
+      memoryLimit: 12Gi
       env:
         - name: HOME
           value: "/projects/home"
@@ -16,11 +15,26 @@ components:
           value: /var/run/secrets/kubernetes.io/serviceaccount
         - name: VSCODE_DEFAULT_WORKSPACE
           value: /.code-workspace
+        - name: USE_JAVA21
+          value: 'true'
 events:
   postStart:
+  - configure-java-version
   - enforce-provider-settings
 
 commands:
+  - id: configure-java-version
+    exec:
+      component: tools
+      label: Configure Java Version to 21
+      commandLine: |
+        bash -lc '
+          source /home/tooling/.sdkman/bin/sdkman-init.sh
+          sdk default java 21.0.5-tem
+        '
+      group:
+        kind: build
+
   - id: enforce-provider-settings
     exec:
       component: tools
