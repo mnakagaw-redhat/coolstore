@@ -31,7 +31,10 @@ export AUTH_RESOURCE=eap-app
 
 # Create keycloak.json from template
 echo "Creating Keycloak configuration..."
-envsubst < keycloak.template.json > src/main/resources/META-INF/resources/keycloak.json
+sed -e "s|\${AUTH_SERVER_URL}|${AUTH_SERVER_URL}|g" \
+    -e "s|\${AUTH_REALM}|${AUTH_REALM}|g" \
+    -e "s|\${AUTH_RESOURCE}|${AUTH_RESOURCE}|g" \
+    keycloak.template.json > src/main/resources/META-INF/resources/keycloak.json
 
 # Create BuildConfig
 echo "Creating BuildConfig..."
